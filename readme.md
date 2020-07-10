@@ -7,3 +7,11 @@ Todo - describe each folder and what it modifies.
 Notes:
 
 v2 implements the HERE [Map Image API](https://developer.here.com/documentation/map-image/dev_guide/topics/what-is.html) to render simple static maps.
+
+v3 implements HERE [Maps API](https://developer.here.com/documentation/maps/3.1.17.0/dev_guide/index.html) to add a map with markers.
+
+* https://developer.here.com/documentation/maps/3.1.17.0/dev_guide/topics/marker-objects.html
+* https://wego.here.com/
+
+
+v4 - add the ability to click and get an overview - either overlay or info below.
