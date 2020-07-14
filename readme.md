@@ -17,3 +17,6 @@ v3 implements HERE [Maps API](https://developer.here.com/documentation/maps/3.1.
 v4 - add the ability to click and get an overview - either overlay or info below.
 
 * https://developer.here.com/documentation/examples/maps-js/infobubbles/open-infobubble
+
+v5 implements routing:
+	* https://developer.here.com/documentation/maps/3.1.17.0/dev_guide/topics/routing.html

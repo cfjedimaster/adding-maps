@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Cats and Sasquatch Boutique * Locations</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/shop-homepage.css" rel="stylesheet">
+
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+
+  <style>
+    #mapContainer {
+      width: 100%;
+      height: 700px;
+    }
+
+    .infoBubble {
+      width: 300px;
+      height: 100px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="./">Cats and Sasquatch Boutique</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="./">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Services</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="locations.html">Locations</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row mb-5">
+
+      <div class="col-lg-3">
+
+        <h1 class="my-4">Our Services</h1>
+        <div class="list-group">
+          <a href="#" class="list-group-item">Pedicures</a>
+          <a href="#" class="list-group-item">Manicures</a>
+          <a href="#" class="list-group-item">Hair Styling</a>
+        </div>
+
+      </div>
+      <!-- /.col-lg-3 -->
+
+      <div class="col-lg-9">
+
+          <h1 class="my-4">Locations</h1>
+
+		      <div id="mapContainer"></div>
+          <div id="routeContainer"></div>
+          
+          <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+      </div>
+      <!-- /.col-lg-9 -->
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+
+    document.addEventListener('DOMContentLoaded', init, false);
+
+    let map, ui, router;
+
+    let locations = [
+      { 
+        position: {lat:30.164709, lng:-92.039268},
+        location: '2133 Kaliste Saloom Rd, Lafayette, LA 70508',
+        hours: '8AM-10PM'
+      },
+      { 
+        position: {lat:30.174879, lng:-92.00705},
+        location: '301 Verot School Rd, Lafayette, LA 70508',
+        hours: '8AM-11PM'
+      },
+      { 
+        position: {lat:30.194481, lng:-92.057503},
+        location: '4311 Johnston St, Lafayette, LA 70503',
+        hours: '8AM-10PM'
+      },
+      { 
+        position: {lat:30.19084, lng:-92.016212},
+        location: '1812 W Pinhook Rd, Lafayette, LA 70508',
+        hours: '6AM-10PM'
+      },
+      { 
+        position: {lat:30.19569, lng:-92.00473},
+        location: '600 E Kaliste Saloom Rd, Lafayette, LA 70508',
+        hours: '24 hours a day'
+      }
+    ];
+   	
+    function init() {
+      setupMap();
+      setupLocations();
+      getRoutes();
+    }
+
+    function setupMap() {
+      const KEY = 'c1LJuR0Bl2y02PefaQ2d8PvPnBKEN8KdhAOFYR_Bgmw';
+      var platform = new H.service.Platform({
+        'apikey': KEY
+      });
+
+      // Obtain the default map types from the platform object:
+      var defaultLayers = platform.createDefaultLayers();
+
+      map = new H.Map(
+        document.getElementById('mapContainer'),
+        defaultLayers.vector.normal.map,
+        {
+          zoom: 12,
+          center: { lat: 30.22, lng: -92.02 },
+          pixelRatio: window.devicePixelRatio || 1
+        }
+      );
+      
+      var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+      // Create the default UI:
+      ui = H.ui.UI.createDefault(map, defaultLayers);
+
+      router = platform.getRoutingService(null, 8);
+    }
+
+    function setupLocations() {
+  		let group = new H.map.Group();
+      for(let l of locations) {
+        let marker = new H.map.Marker(l.position);
+        marker.setData(`
+        <p class='infoBubble'>
+        <b>Location:</b> ${l.location}<br/>
+        <b>Hours:</b> ${l.hours}
+        </p>
+        `);
+        group.addObject(marker);
+        map.addObject(group);
+      }
+
+      group.addEventListener('tap', evt => {
+        // event target is the marker itself, group is a parent event target
+        // for all objects that it contains
+        var bubble =  new H.ui.InfoBubble(evt.target.getGeometry(), {
+          // read custom data
+          content: evt.target.getData()
+        });
+        // show info bubble
+        ui.addBubble(bubble);
+      }, false);
+     
+    }
+
+
+    async function getRoutes() {
+      let myLocation = await getLocation();
+      let lowest = Number.POSITIVE_INFINITY;
+      let chosenRoute;
+
+      // draw routes from me to all locations
+
+      for(l of locations) {
+        let result = await getRoute({lat:myLocation.latitude, lng:myLocation.longitude}, l.position);
+        let totalTime = result.routes[0].sections[0].travelSummary.duration;
+        if(totalTime < lowest) {
+          lowest = totalTime;
+          chosenRoute = result.routes[0];
+        }
+      }
+
+      if(chosenRoute) {
+        drawRouteOnMap(chosenRoute);
+        document.querySelector('#routeContainer').innerHTML = `
+        <p>
+        <b>New Feature!</b> The closest location (based on time to arrive) is now highlighted on the map. The home icon represents your location.
+        </p>
+        `;
+      }
+    }
+
+    async function getLocation() {
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(loc => {
+          resolve(loc.coords);      
+        }, e => reject(e));
+      });
+    }
+
+    async function getRoute(from, to) {
+      var routingParameters = {
+        'routingMode': 'fast',
+        'transportMode': 'car',
+        // The start point of the route:
+        'origin': `${from.lat},${from.lng}`,
+        // The end point of the route:
+        'destination': `${to.lat},${to.lng}`,
+        // Include the route shape in the response
+        'return': 'polyline,travelSummary'
+      };
+
+      return new Promise((resolve, reject) => {
+        router.calculateRoute(routingParameters, r => resolve(r), e => reject(e));
+      });
+    }
+
+    function drawRouteOnMap(route) {
+      route.sections.forEach((section) => {
+         // Create a linestring to use as a point source for the route line
+        let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
+
+        // Create a polyline to display the route:
+        let routeLine = new H.map.Polyline(linestring, {
+          style: { strokeColor: 'blue', lineWidth: 3 }
+        });
+
+  			var icon = new H.map.Icon('img/home.png');
+
+        // Create a marker for the start point:
+        let startMarker = new H.map.Marker(section.departure.place.location, { icon:icon});
+
+
+        // Add the route polyline and the two markers to the map:
+        map.addObjects([routeLine, startMarker]);
+
+      });
+    }
+
+	</script>
+
+</body>
+
+</html>
