@@ -20,4 +20,4 @@ v4 - add the ability to click and get an overview - either overlay or info below
 
 v5 implements routing:
 
-	* https://developer.here.com/documentation/maps/3.1.17.0/dev_guide/topics/routing.html
+* https://developer.here.com/documentation/maps/3.1.17.0/dev_guide/topics/routing.html
