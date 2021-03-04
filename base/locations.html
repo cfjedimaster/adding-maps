@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Cats and Sasquatch Boutique * Locations</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/shop-homepage.css" rel="stylesheet">
+
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+
+  <style>
+    #mapContainer {
+      width: 100%;
+      height: 700px;
+    }
+
+    .infoBubble {
+      width: 300px;
+      height: 100px;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="./">Cats and Sasquatch Boutique</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="./">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Services</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="locations.html">Locations</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row mb-5">
+
+      <div class="col-lg-3">
+
+        <h1 class="my-4">Our Services</h1>
+        <div class="list-group">
+          <a href="#" class="list-group-item">Pedicures</a>
+          <a href="#" class="list-group-item">Manicures</a>
+          <a href="#" class="list-group-item">Hair Styling</a>
+        </div>
+
+      </div>
+      <!-- /.col-lg-3 -->
+
+      <div class="col-lg-9">
+
+          <h1 class="my-4">Locations</h1>
+
+          <div id="mapContainer"></div>
+
+      </div>
+      <!-- /.col-lg-9 -->
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+		const KEY = 'c1LJuR0Bl2y02PefaQ2d8PvPnBKEN8KdhAOFYR_Bgmw';
+		var platform = new H.service.Platform({
+			'apikey': KEY
+		});
+
+		// Obtain the default map types from the platform object:
+		var defaultLayers = platform.createDefaultLayers();
+
+		var map = new H.Map(
+			document.getElementById('mapContainer'),
+			defaultLayers.vector.normal.map,
+			{
+				zoom: 12,
+				center: { lat: 30.22, lng: -92.02 },
+				pixelRatio: window.devicePixelRatio || 1
+			}
+		);
+		
+		var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+		// Create the default UI:
+   	var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+    var group = new H.map.Group();
+
+    let marker = new H.map.Marker({lat:30.164709, lng:-92.039268});
+    marker.setData(`
+    <p class='infoBubble'>
+    <b>Location:</b> 2133 Kaliste Saloom Rd, Lafayette, LA 70508<br/>
+    <b>Hours:</b> 8AM-10PM
+    </p>
+    `);
+   	
+    group.addObject(marker);
+
+    marker = new H.map.Marker({lat:30.174879, lng:-92.00705});
+    marker.setData(`
+    <p class='infoBubble'>
+    <b>Location:</b> 301 Verot School Rd, Lafayette, LA 70508<br/>
+    <b>Hours:</b> 8AM-11PM
+    </p>
+    `);
+   	
+    group.addObject(marker);
+
+    marker = new H.map.Marker({lat:30.194481, lng:-92.057503});
+    marker.setData(`
+    <p class='infoBubble'>
+    <b>Location:</b> 4311 Johnston St, Lafayette, LA 70503<br/>
+    <b>Hours:</b> 8AM-10PM
+    </p>
+    `);
+   	
+    group.addObject(marker);
+
+    marker = new H.map.Marker({lat:30.19084, lng:-92.016212});
+    marker.setData(`
+    <p class='infoBubble'>
+    <b>Location:</b> 1812 W Pinhook Rd, Lafayette, LA 70508<br/>
+    <b>Hours:</b> 6AM-10PM
+    </p>
+    `);
+   	
+    group.addObject(marker);
+
+    marker = new H.map.Marker({lat:30.19569, lng:-92.00473});
+    marker.setData(`
+    <p class='infoBubble'>
+    <b>Location:</b> 600 E Kaliste Saloom Rd, Lafayette, LA 70508<br/>
+    <b>Hours:</b> 24 hours a day
+    </p>
+    `);
+   	
+    group.addObject(marker);
+
+    map.addObject(group);
+    
+		group.addEventListener('tap', evt => {
+			// event target is the marker itself, group is a parent event target
+			// for all objects that it contains
+			var bubble =  new H.ui.InfoBubble(evt.target.getGeometry(), {
+				// read custom data
+				content: evt.target.getData()
+			});
+			// show info bubble
+			ui.addBubble(bubble);
+		}, false);
+
+	</script>
+
+</body>
+
+</html>
